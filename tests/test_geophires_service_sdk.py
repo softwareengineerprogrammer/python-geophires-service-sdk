@@ -10,7 +10,10 @@ class GeophiresServiceSdkTest(unittest.TestCase):
         client = GeophiresServiceClient()
         result = client.get_geophires_simulation_result(
             GeophiresSimulationRequest(
-                GeophiresSimulationParameters().with_gradient_1(50).with_maximum_temperature(300).with_reservoir_model(1)
+                GeophiresSimulationParameters()
+                .with_gradient_1(50)
+                .with_maximum_temperature(300)
+                .with_reservoir_model(1)
             )
         )
         assert result is not None
