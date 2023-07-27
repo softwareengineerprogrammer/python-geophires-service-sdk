@@ -40,30 +40,25 @@ Overview
 
 GEOPHIRES service SDK
 
-* Free software: MIT license
+Free software: MIT license
 
 Installation
 ============
 
 ::
 
-    pip install geophires-service-sdk
-
-You can also install the in-development version with::
+Install the in-development version with::
 
     pip install https://github.com/softwareengineerprogrammer/python-geophires-service-sdk/archive/main.zip
 
+(Package may eventually be published to PyPi, enabling `pip install geophires-service-sdk`)
 
 Documentation
 =============
 
 
-To use the project:
-
-.. code-block:: python
-
-    import geophires_service_sdk
-    geophires_service_sdk.longest()
+See example usage in https://github.com/softwareengineerprogrammer/python-geophires-service-sdk/blob/main/tests/test_geophires_service_sdk.py.
+You will need to provide an endpoint running https://github.com/softwareengineerprogrammer/python-geophires-x
 
 
 Development
