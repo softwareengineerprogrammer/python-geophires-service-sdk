@@ -41,7 +41,7 @@ class GeophiresSimulationResult:
 
 
 class GeophiresServiceClient:
-    def __init__(self, endpoint: str = 'https://xi0du897va.execute-api.us-west-2.amazonaws.com/'):
+    def __init__(self, endpoint: str):
         self._endpoint = endpoint
 
     def get_geophires_simulation_result(self, geophires_simulation_request: GeophiresSimulationRequest):
