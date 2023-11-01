@@ -45,18 +45,20 @@ class GeophiresSimulationResult:
 class GeophiresServiceClient:
     def __init__(self, endpoint: str):
         self._endpoint = endpoint
-
-    def get_geophires_simulation_result(self, geophires_simulation_request: GeophiresSimulationRequest):
-        # -> GeophiresSimulationResult:
-        s = requests.Session()
+        self._session = requests.Session()
 
         retries = Retry(total=3,
                         backoff_factor=0.1,
                         status_forcelist=[500, 502, 503, 504])
 
-        s.mount('https://', HTTPAdapter(max_retries=retries))
+        self._session.mount('https://', HTTPAdapter(max_retries=retries))
 
-        response = s.post(
+        # TODO should probably enable closing session
+
+    def get_geophires_simulation_result(self, geophires_simulation_request: GeophiresSimulationRequest):
+        # -> GeophiresSimulationResult:
+
+        response = self._session.post(
             self._endpoint,
             json={
                 'geophires_input_parameters': geophires_simulation_request.get_simulation_parameters().get_parameters()},
