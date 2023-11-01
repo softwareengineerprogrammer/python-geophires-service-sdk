@@ -4,6 +4,8 @@ import json
 from typing import Any
 
 import requests
+from requests.adapters import HTTPAdapter
+from requests.adapters import Retry
 
 
 class GeophiresSimulationParameters:
@@ -13,16 +15,16 @@ class GeophiresSimulationParameters:
     def get_parameters(self) -> dict:
         return self._parameters
 
-    def with_gradient_1(self, gradient_1: float): # -> Self:
+    def with_gradient_1(self, gradient_1: float):  # -> Self:
         return self.with_parameter('Gradient 1', gradient_1)
 
-    def with_maximum_temperature(self, max_temp: float): # -> Self:
+    def with_maximum_temperature(self, max_temp: float):  # -> Self:
         return self.with_parameter('Maximum Temperature', max_temp)
 
-    def with_reservoir_model(self, reservoir_model: int): # -> Self:
+    def with_reservoir_model(self, reservoir_model: int):  # -> Self:
         return self.with_parameter('Reservoir Model', reservoir_model)
 
-    def with_parameter(self, parameter_name: str, parameter_value: Any): # -> Self:
+    def with_parameter(self, parameter_name: str, parameter_value: Any):  # -> Self:
         self._parameters[parameter_name] = parameter_value
         return self
 
@@ -46,7 +48,15 @@ class GeophiresServiceClient:
 
     def get_geophires_simulation_result(self, geophires_simulation_request: GeophiresSimulationRequest):
         # -> GeophiresSimulationResult:
-        response = requests.post(
+        s = requests.Session()
+
+        retries = Retry(total=3,
+                        backoff_factor=0.1,
+                        status_forcelist=[500, 502, 503, 504])
+
+        s.mount('https://', HTTPAdapter(max_retries=retries))
+
+        response = s.post(
             self._endpoint,
             json={
                 'geophires_input_parameters': geophires_simulation_request.get_simulation_parameters().get_parameters()},
