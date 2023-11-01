@@ -13,7 +13,7 @@ def read(*names, **kwargs):
 
 setup(
     name='geophires-service-sdk',
-    version='0.1.1',
+    version='0.2.0',
     license='MIT',
     description='GEOPHIRES service SDK',
     long_description='{}\n{}'.format(
