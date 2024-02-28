@@ -43,9 +43,12 @@ class GeophiresSimulationResult:
 
 
 class GeophiresServiceClient:
-    def __init__(self, endpoint: str):
+    def __init__(self, endpoint: str, api_key:str = None):
         self._endpoint = endpoint
         self._session = requests.Session()
+
+        # x-api-key
+        self._api_key = api_key
 
         retries = Retry(total=3,
                         backoff_factor=0.1,
@@ -63,5 +66,6 @@ class GeophiresServiceClient:
             json={
                 'geophires_input_parameters': geophires_simulation_request.get_simulation_parameters().get_parameters()},
             timeout=30,
+            headers={'x-api-key': self._api_key} if self._api_key is not None else None
         )
         return GeophiresSimulationResult(json.loads(response.text))
